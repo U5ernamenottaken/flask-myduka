@@ -8,11 +8,42 @@ def get_products():
     cur.execute("select*from products")
     products = cur.fetchall()
     return products
-products = get_products()
-print(products)
-def insert_products():
-    cur.execute("insert into products(name,buying_price,selling_price)values('shoes','300','500')")
+
+def insert_products(product_values):
+    cur.execute("insert into products(name,buying_price,selling_price)values(%s,%s,%s)",product_values)
     conn.commit()
-insert_products()
+product1 = ('Juice',100,150)
+#insert_products(product1)
 products = get_products()
 print(products)
+
+#Viewing data in the sales table 
+def get_sales():
+    cur.execute("select*from sales")
+    sales = cur.fetchall()
+    return sales
+
+#inserting data into the sales table 
+def insert_sales(sales_values):
+    cur.execute("insert into sales(pid,quantity)values(%s,%s)",sales_values)
+    conn.commit()
+#sale1 = (2,20)
+#insert_sales(sale1)
+sales = get_sales()
+
+print(sales)
+#Viewing data into the stock table 
+def get_stock():
+    cur.execute("select*from stock")
+    stock = cur.fetchall()
+    return stock
+#inserting data into the sales table 
+def insert_stock(stock_values):
+    cur.execute("insert into stock(pid,stock_quantity)values(%s,%s)",stock_values)
+    conn.commit()
+#stock1 = (2,300) 
+#insert_stock(stock1)
+stock = get_stock()
+print(stock)
+
+
