@@ -46,4 +46,46 @@ def insert_stock(stock_values):
 stock = get_stock()
 print(stock)
 
+#calculating the sales per product
+def sales_per_product():
+    cur.execute("""
+    select products.id,sum(quantity*selling_price) from products 
+                inner join sales on products.id=sales.pid group by products.id
+                """)
+    sales_product = cur.fetchall()
+    return sales_product
+sales_prod = sales_per_product()
+print(sales_prod)
 
+#sales per day
+def sales_per_day():
+    cur.execute("""
+    select date(sales.created_at) as date,sum(sales.quantity*products.selling_price) from products 
+                inner join sales on products.id=sales.pid group by sales.created_at
+                """)
+    sales_day = cur.fetchall()
+    return sales_day
+sale_day = sales_per_day()
+print(sale_day)
+
+#profit per day
+def profit_per_day():
+   cur.execute("""
+    select sales.created_at,sum(selling_price-buying_price) from products 
+        inner join sales on products.id=sales.pid group by sales.created_at
+        """)
+   profit = cur.fetchall()
+   return profit
+profit_day = profit_per_day()
+print(profit_day)
+
+#profit per product
+def profit_per_product():
+    cur.execute("""select products.id,sum(selling_price-buying_price) from products 
+        inner join sales on products.id=sales.pid group by products.id
+                """)
+    profit_prod = cur.fetchall()
+    return profit_prod
+
+profit_product = profit_per_product()
+print(profit_product)
