@@ -3,6 +3,18 @@
 {% block content %}
 <div>
     <h1>The Home Page</h1>
+    {{ value }}
+    {{ b }}
+    {{ tp }}
+    {{ nums }}
+
+    {% for i in nums %}
+    {% if i%2==0 %}
+    <h1>{{ i+3 }}</h1>
+    {% endif %}
+
+    {% endfor %}
 </div>
+
 
 {% endblock %}

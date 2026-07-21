@@ -3,6 +3,30 @@
 {% block content %}
 <div>
     <h1>The Stock</h1>
+    
 </div>
+    <div>
+        <table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stock ID</th>
+                <th>Product ID</th>
+                <th>Stock quantity</th>
+                <th>Date of stocking</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for stock in stock_data %}
+            <tr>
+                <td>{{stock[0]}}</td>
+                <td>{{stock [1]}}</td></td>
+                <td>{{stock [2]}}</td></td>
+                <td>{{stock [3]}}</td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
 
 {% endblock %}

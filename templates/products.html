@@ -2,7 +2,31 @@
 {% block title %}Products{% endblock %}
 {% block content %}
 <div>
-    <h1>The Products</h1>
+    <h1>The Products</h1><br>
+    <div>
+        <table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Buying price</th>
+                <th>Selling price</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for products in products_data %}
+            <tr>
+                <td>{{products [0]}}</td>
+                <td>{{products [1]}}</td></td>
+                <td>{{products [2]}}</td></td>
+                <td>{{products [3]}}</td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
 </div>
 
 {% endblock %}
