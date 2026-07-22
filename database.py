@@ -15,7 +15,7 @@ def insert_products(product_values):
 product1 = ('Juice',100,150)
 #insert_products(product1)
 products = get_products()
-print(products)
+#print(products)
 
 #Viewing data in the sales table 
 def get_sales():
@@ -76,7 +76,7 @@ def profit_per_day():
    profit = cur.fetchall()
    return profit
 profit_day = profit_per_day()
-print(profit_day)
+#print(profit_day)
 
 #profit per product
 def profit_per_product():
@@ -87,4 +87,4 @@ def profit_per_product():
     return profit_prod
 
 profit_product = profit_per_product()
-print(profit_product)
+#print(profit_product)

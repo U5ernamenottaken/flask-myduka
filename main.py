@@ -1,5 +1,5 @@
-from flask import Flask,render_template
-from database import get_products,get_sales,get_stock
+from flask import Flask,render_template,request,redirect,url_for
+from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock
 
 app = Flask(__name__)
 
@@ -38,5 +38,34 @@ def register():
 @app.route('/login')
 def login():
     return render_template('login.html')
+@app.route('/add_products',methods = ['GET','POST'])
+def add_products():
+ if request.method == 'POST':
+     products_name = request.form['p_name']
+     buying_price = request.form['b_price']
+     selling_price = request.form['s_price']
 
+     new_products = (products_name,buying_price,selling_price)
+     insert_products(new_products)
+     print('product adding successful')
+ return redirect(url_for('products'))
+@app.route('/add_sales',methods =['GET','POST'])
+def add_sales():
+    if request.method == 'POST':
+        product_id = request.form['pid']
+        quantity = request.form['quantity']
+        new_sale = (product_id,quantity)
+        insert_sales(new_sale)
+        print('Sales added successfully')
+    return redirect(url_for('sales'))
+@app.route('/add_stock',methods =['GET','POST','DELETE','UPDATE'])
+def add_stock():
+    if request.method == 'POST':
+        stock_id = request.form['stid']
+        quantity = request.form['st_quantity']
+        new_stock = (stock_id,quantity)
+        insert_stock(new_stock)
+        print('Stock added successfully')
+        return redirect(url_for('stock'))
+        
 app.run(debug=True)

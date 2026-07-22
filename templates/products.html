@@ -4,26 +4,73 @@
 <div>
     <h1>The Products</h1><br>
     <div>
-        <table id="example" class="table table-striped">
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Buying price</th>
-                <th>Selling price</th>
-            </tr>
-        </thead>
-        <tbody>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Adding products
+        </button>
 
-        {% for products in products_data %}
-            <tr>
-                <td>{{products [0]}}</td>
-                <td>{{products [1]}}</td></td>
-                <td>{{products [2]}}</td></td>
-                <td>{{products [3]}}</td></td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Adding Products</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/add_products" method="post">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" name="p_name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Buying price</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" name="b_price">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Selling price</label>
+                                <input type="number" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" name="s_price">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add products</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div>
+        <table id="example" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Buying price</th>
+                    <th>Selling price</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for products in products_data %}
+                <tr>
+                    <td>{{products [0]}}</td>
+                    <td>{{products [1]}}</td>
+                    </td>
+                    <td>{{products [2]}}</td>
+                    </td>
+                    <td>{{products [3]}}</td>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 
