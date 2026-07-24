@@ -1,7 +1,9 @@
-from flask import Flask,render_template,request,redirect,url_for
-from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock
+from flask import Flask,render_template,request,redirect,url_for,flash
+from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock,check_available_stock
 
 app = Flask(__name__)
+
+app.secret_key = "#L3ssthan#0_0mu$hr00m$"
 
 @app.route('/')
 def home():
@@ -20,12 +22,14 @@ def products():
 @app.route('/sales')
 def sales():
     sales_data = get_sales()
-    return render_template('sales.html',sales_data=sales_data)
+    products_data = get_products()
+    return render_template('sales.html',sales_data=sales_data,products_data=products_data)
 
 @app.route('/stock')
 def stock():
     stock_data = get_stock()
-    return render_template('stock.html',stock_data=stock_data)
+    products_data = get_products()
+    return render_template('stock.html',stock_data=stock_data,products_data=products_data)
 
 @app.route('/dashboard')
 def dashboard():
@@ -54,9 +58,15 @@ def add_sales():
     if request.method == 'POST':
         product_id = request.form['pid']
         quantity = request.form['quantity']
+        available_stock = check_available_stock(product_id)
+
+        if float(quantity)>available_stock:
+            flash("Insufficient stock","danger")
+            return redirect(url_for('sales'))
+
         new_sale = (product_id,quantity)
         insert_sales(new_sale)
-        print('Sales added successfully')
+        flash("Sale added successfully","success")
     return redirect(url_for('sales'))
 @app.route('/add_stock',methods =['GET','POST','DELETE','UPDATE'])
 def add_stock():
@@ -65,7 +75,7 @@ def add_stock():
         quantity = request.form['st_quantity']
         new_stock = (stock_id,quantity)
         insert_stock(new_stock)
-        print('Stock added successfully')
+        flash("Stock added successfully","success")
         return redirect(url_for('stock'))
         
 app.run(debug=True)

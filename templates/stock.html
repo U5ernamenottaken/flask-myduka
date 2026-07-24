@@ -21,10 +21,12 @@
                 </div>
                 <div class="modal-body">
                     <form action="/add_stock" method="post">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Product ID</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" name="stid">
+                          <select class="form-select" aria-label="Default select example" name="stid">
+                                <option selected>Select Product</option>
+                                {% for products in products_data %}
+                                <option value=" {{products[0]}}">{{products[1]}}</option>
+                                {% endfor %}
+                            </select>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Quantity</label>
                             <input type="number" class="form-control" id="exampleInputPassword1" name="st_quantity">

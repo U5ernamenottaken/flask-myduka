@@ -22,19 +22,22 @@
                 <div class="modal-body">
                     <form action="/add_sales" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Product ID</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" name="pid">
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="quantity">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
+                            <select class="form-select" aria-label="Default select example" name="pid">
+                                <option selected>Select Product</option>
+                                {% for products in products_data %}
+                                <option value=" {{products[0]}}">{{products[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" name="quantity">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
 
-                        <button type="submit" class="btn btn-primary">Add Sale</button>
+                            <button type="submit" class="btn btn-primary">Add Sale</button>
                     </form>
                 </div>
 
