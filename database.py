@@ -48,12 +48,13 @@ stock = get_stock()
 #calculating the sales per product
 def sales_per_product():
     cur.execute("""
-    select products.id,sum(quantity*selling_price) from products 
+    select products.name,products.id,sum(quantity*selling_price) from products 
                 inner join sales on products.id=sales.pid group by products.id
                 """)
     sales_product = cur.fetchall()
     return sales_product
 sales_prod = sales_per_product()
+print(sales_prod)
 
 
 #sales per day
@@ -70,7 +71,7 @@ sale_day = sales_per_day()
 #profit per day
 def profit_per_day():
    cur.execute("""
-    select sales.created_at,sum(selling_price-buying_price) from products 
+    select sales.created_at as date,sum(selling_price-buying_price) as profit from products 
         inner join sales on products.id=sales.pid group by sales.created_at
         """)
    profit = cur.fetchall()
@@ -80,7 +81,7 @@ profit_day = profit_per_day()
 
 #profit per product
 def profit_per_product():
-    cur.execute("""select products.id,sum(selling_price-buying_price) from products 
+    cur.execute("""select products.id,sum(selling_price-buying_price) as profit from products 
         inner join sales on products.id=sales.pid group by products.id
                 """)
     profit_prod = cur.fetchall()
@@ -96,3 +97,13 @@ def check_available_stock(pid):
     total_sold = cur.fetchone()[0] or 0
 
     return total_stock-total_sold
+
+def insert_user(user_details):
+    cur.execute("insert into users(full_name,email,phone_number,password)values(%s,%s,%s,%s)",user_details)
+    conn.commit()
+
+def check_exiting_user(email):
+    cur.execute('select*from users where email=%s',(email,))
+    user = cur.fetchone()
+    return user
+

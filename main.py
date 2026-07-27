@@ -1,5 +1,7 @@
 from flask import Flask,render_template,request,redirect,url_for,flash
-from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock,check_available_stock
+from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock,check_available_stock,profit_per_day,profit_per_product,sales_per_day,sales_per_product,insert_user,check_exiting_user
+
+
 
 app = Flask(__name__)
 
@@ -33,10 +35,34 @@ def stock():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    sales_product = sales_per_product()
+    sales_day = sales_per_day()
 
-@app.route('/register')
+    product_profit = profit_per_product()
+    profit_day = profit_per_day()
+
+    product_names = [i[0] for i in sales_product]
+    p_sales = [float(i[1]) for i in sales_product]
+    p_profit = [float(i[1]) for i in product_profit]
+
+    dates = [str(i[0]) for i in sales_day]
+    d_sales = [float(i[1]) for i in sales_day]
+    d_profit = [float(i[1]) for i in product_profit]
+
+    return render_template('dashboard.html',sales_product=sales_product,sales_day=sales_day,product_profit=product_profit,
+                           profit_day=profit_day,product_names=product_names,p_sales=p_sales,p_profit=p_profit,
+                           dates=dates,d_sales=d_sales,d_profit=d_profit)
+
+@app.route('/register',methods = ['POST','GET'])
 def register():
+    if request.methods == 'POST':
+        full_name = request.form['name']
+        email =request.form['email']
+        phone_number =request.form['phone']
+        password =request.form['password']
+
+    existing_user = check_exiting_user(email)
+
     return render_template('register.html')
 
 @app.route('/login')
