@@ -30,6 +30,7 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
+            {% if session.email %}
             <li class="nav-item">
               <a class="nav-link" href="/products">Products</a>
             </li>
@@ -43,11 +44,17 @@
               <a class="nav-link" href="/dashboard">Dashboard</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% else %}
+
+            <li class="nav-item">
               <a class="nav-link" href="/login">login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/register">Register</a>
             </li>
+            {% endif %}
           </ul>
 
         </div>

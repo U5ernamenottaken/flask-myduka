@@ -1,14 +1,15 @@
 from flask import Flask,render_template,request,redirect,url_for,flash,session
 from database import get_products,get_sales,get_stock,insert_products,insert_sales,insert_stock,check_available_stock,profit_per_day,profit_per_product,sales_per_day,sales_per_product,insert_user,check_exiting_user
 from flask_bcrypt import Bcrypt
+from functools import wraps
 
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = "#L3ssthan#0_0mu$hr00m$"
 
-@app.route('/')
-def home():
+@app.route('/')#decorator function
+def home():#view function
     x = 78
     name = 'Kyle' 
     tup = ('Ericka','Alisha','Shanice')
@@ -16,9 +17,19 @@ def home():
     
     return render_template('index.html',value = x,b = name,tp = tup,nums = nums)
 
+def login_required(f):
+    @wraps(f)
+    def protected(*args,**kwargs):
+        if 'email' not in session:
+            return redirect(url_for('login'))
+        return f(*args,**kwargs)
+    return protected
+
+
 
 
 @app.route('/products')
+@login_required
 def products():
     products_data = get_products()
     return render_template('products.html',products_data=products_data)
@@ -26,6 +37,7 @@ def products():
 
 
 @app.route('/sales')
+@login_required
 def sales():
     sales_data = get_sales()
     products_data = get_products()
@@ -34,6 +46,7 @@ def sales():
 
 
 @app.route('/stock')
+@login_required
 def stock():
     stock_data = get_stock()
     products_data = get_products()
@@ -42,6 +55,7 @@ def stock():
 
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     sales_product = sales_per_product()
     sales_day = sales_per_day()
@@ -145,5 +159,11 @@ def add_stock():
         insert_stock(new_stock)
         flash("Stock added successfully","success")
         return redirect(url_for('stock'))
+
+@app.route('/logout')
+def logout():
+    session.pop('email',None)
+    flash("Logged out successfully","success")
+    return redirect(url_for('login'))
         
 app.run(debug=True)
