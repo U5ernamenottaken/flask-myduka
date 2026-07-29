@@ -107,3 +107,9 @@ def check_exiting_user(email):
     user = cur.fetchone()
     return user
 
+def check_exiting_users():
+    cur.execute('select*from users')
+    user = cur.fetchall()
+    return user
+
+#print(check_exiting_users())
